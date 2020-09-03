@@ -1,0 +1,35 @@
+package main
+import(
+    f "fmt"
+    b "bufio"
+    "os"
+)
+func main() {
+    in := b.NewReader(os.Stdin)
+    var T, N int
+    f.Fscan(in, &T)
+    for ;T>0;T-- {
+        f.Fscan(in, &N)
+        var mat [][]int
+        for i:=0; i<N; i++ {
+            j := make([]int, N)
+            for k:=0; k<N; k++ {
+                f.Fscan(in, &j[k])
+            }
+            mat = append(mat, j)
+        }
+        count := 0
+        for i:=0; i<N; i++ {
+            for j:=0;j<N;j++ {
+                for k:=i; k<N; k++ {
+                    for l:=j;l<N; l++ {
+                        if (k>i || l>j) && (mat[i][j]>mat[k][l]) {
+                            count +=1
+                        }
+                    }
+                }
+            }
+        }
+        f.Println(count)
+    }
+}
