@@ -6,7 +6,7 @@ import (
 )
 
 func right_rotate(a []int, N, K int) {
-    r := append(a[(N-K)%N:N], a[:(N-K)%N]...)
+    r := append(a[(N-K):N], a[:(N-K)]...)
     for i:=0; i<len(r); i++ {
         f.Printf("%d ", r[i])
     }
@@ -32,10 +32,11 @@ func main() {
         for i:=0; i<N; i++ {
             f.Fscan(in, &arr[i])
         }
+        K%=N
         if K>=0{
-            right_rotate(arr, N, K%N)
+            right_rotate(arr, N, K)
         } else {
-            left_rotate(arr, N, K%N)    
+            left_rotate(arr, N, K)    
         }
     }
 }
