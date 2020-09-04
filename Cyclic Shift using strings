@@ -1,0 +1,67 @@
+package main 
+import (
+    f "fmt"
+    b "bufio"
+    "os"
+    "strings"
+)
+
+func find_max(S string) (string, int) {
+    a := S
+    if strings.Compare(S, S[1:] + S[:1]) == 0 {
+        return S, 0
+    }
+    shift := 1
+    r := a[1:] + a[:1]
+    max_found := false 
+    for ; max_found == false; {
+        if strings.Compare(a, r) == -1 {
+            a = r
+        } else {
+            if strings.Compare(a, r) == 0 {
+                break
+            }
+        }
+        shift+=1
+        r = r[1:] + r[:1]
+    }
+    return a, shift
+}
+
+func return_max(S string, N, K int64) (int64) {
+    max, n1 := find_max(S)
+    if n1 == 0 {
+        return int64((K-1)*1)
+    }
+    if int64(n1) > N {
+        return int64((int64(n1)-N) + ((K-1)*int64(N)))
+    }
+    next := 1
+    found_max := 0
+    r := max[1:] +max[:1]
+    for ; int64(found_max)<=K; {
+        if strings.Compare(r, max) == 0 {
+            found_max += 1
+        }
+        if found_max >= 1 {
+            break
+        }
+        next+=1
+        r = r[1:] + r[:1]
+    }  
+    return int64(int64(n1-next) + ((K-1)*int64(next)))
+    
+}
+
+func main() {
+    var T, N, K int64
+    var L string
+    in := b.NewReader(os.Stdin)
+    f.Fscan(in, &T)
+    for ; T>0; T-- {
+        f.Fscan(in, &N, &K)
+        f.Fscan(in, &L)
+        max := return_max(L, N, K)
+        f.Println(max)  
+    }
+}
